@@ -2,7 +2,7 @@
 using namespace std;
 int main()
 {
-	char val1, val2, menor, mayor, suma, resta1, resta2, multiplica, divi1, divi2;
+	int val1, val2, menor, mayor, suma, resta1, resta2, multiplica, divi1, divi2;
 	cout << "Este es un programa para dos numeros, muestra cual es el mayor, cual el menor, la suma de estos, la diferencia entre ellos, su multiplicacion y su division\n";
 	cout << "Ingrese el valor 1: ";
 	cin >> val1;
