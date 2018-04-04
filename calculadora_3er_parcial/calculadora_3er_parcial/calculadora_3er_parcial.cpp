@@ -19,10 +19,92 @@ void leer_archivo(string nombre,string& cosa)
 	//delete []lector;
 }
 
+void acomodar(int i, vector <char>& ope, vector <double>& num, int resultado)
+{
+
+	int n = num.size();
+	int n2 = ope.size();
+	int j = i;
+	if (ope.size()>0)
+	{
+		num[i] = resultado;
+		i+=1;
+		while (i<n-1)
+		{
+			num[i] = num[i + 1];
+			i++;
+		}
+		num.pop_back();
+		while (j<n2-1)
+		{
+			ope[j] = ope[j + 1];
+			j++;
+		}
+		ope.pop_back();
+		int nt = ope.size()+num.size();
+		string *total= new string[nt];
+		int t = 0;
+		while (t<nt)
+		{
+			int i = 0;
+			char m[50];
+			snprintf(m, 50, "%f", num[i]);
+			string to = m;
+			total[t]=to;
+			t+=2;
+			i++;
+			/*for (int i = 0; i < 50; i++)
+			{
+				m[i] = '/0';
+			}*/
+		}
+		int t2 = 1;
+		while (t2<nt)
+		{
+			int i = 0;
+			char m[50];
+			snprintf(m,50, "%f", ope[i]);
+			string to = m;
+			total[t2] = to;
+			t2 += 2;
+			i++;
+		}
+		for (size_t a = 0; a < nt; a++)
+		{
+			cout << total[a];
+		}
+	}
+}
+
+void gerarquia_oper(vector <char> operaciones, vector <double> numero)
+{
+	vector <char> ope;
+	vector <double> num;
+	for (int i = 0; i < operaciones.size(); i++)
+	{
+		ope.push_back(operaciones[i]);
+	}
+	for (int i = 0; i < numero.size(); i++)
+	{
+		num.push_back(numero[i]);
+	}
+
+	for (int i = 0; i < ope.size(); i++)
+	{
+		if (ope[i]=='*')
+		{
+			int resultado = num[i] * num[i + 1];
+			acomodar(i, ope, num, resultado);
+		}
+
+	}
+
+}
+
 void operaciones(string contenido)
 {
 	vector <char> operaciones;
-	vector <int> numero;
+	vector <double> numero;
 	char numeros[10];
 	for (int a = 0; a < 9; a++)
 	{
@@ -98,6 +180,9 @@ void operaciones(string contenido)
 			}
 			i++;
 		}
+		
+		gerarquia_oper(operaciones,numero);
+
 		for (int i = 0; i < operaciones.size(); i++)
 		{
 			if (operaciones[i] == '+')
