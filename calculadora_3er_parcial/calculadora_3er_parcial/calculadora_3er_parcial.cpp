@@ -9,25 +9,396 @@
 
 using namespace std;
 
+void agregar_nuevo(string n, string *total, int nt)
+{
+	ofstream *archivo_n=new ofstream(n.c_str(), ios::app);
+	for (int i = 0; i < nt; i++)
+	{
+		if (nt == 1)
+		{
+			*archivo_n << "Resultado= ";
+		}
+		*archivo_n << total[i];
+	}
+	*archivo_n << "\n";
+	if (nt == 1)
+	{
+		*archivo_n << "\n";
+	}
+	delete (archivo_n);
+}
+
+void operaciones_perentesis(string *total, int nt);
+
+void acomo_paren(string *&total, int resultado, int i)
+{
+	total[i - 1] = resultado;
+	for (int j = i; j < total->size(); j++)
+	{
+		total[i] = total[j + 1];
+	}
+}
+
+void gerarquia_parentesis(string *total)
+{
+	int nt = total->size();
+	while (nt > 1)
+	{
+		int i = 0;
+		int nt = (total->size());
+		int par1 = 0, par2 = (total->size()-1), pare = par1;
+		string contenido;
+		while (i < nt)
+		{
+			if (total[i] == "(")
+			{
+				par1 = i;
+			}
+			if (total[i] == ")")
+			{
+				par2 = i;
+				pare = par1 + 1;
+			}
+			i++;
+		}
+		i = pare;
+		/*while (i < par2)
+		{
+			if (total[i] == "p" || total[i] == "P")
+			{
+				double nume, nume2, pot, resultado;
+				int p = 1;
+				char *m = (total[i - 1]).c_str;
+				nume = atof(m);
+				//*m = (total[i + 1]).c_str;
+				pot = atof(total[i + 1].c_str);
+				nume2 = nume;
+				while (p<pot)
+				{
+					nume = nume * nume2;
+					p++;
+				}
+				resultado = nume;
+				//acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == 'r' || ope[i] == 'R')
+			{
+				double nume, ra, resultado;
+				nume = num[i];
+				ra = num[i + 1];
+				resultado = pow(nume, (1 / ra));
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == 'l' || ope[i] == 'L')
+			{
+				double nume, nume2, resultado;
+				//num.size()>1 &&
+				if (ope.size() == (num.size()))
+				{
+					nume = num[i];
+					resultado = log(nume) / log(2.718281828);
+				}
+				else
+				{
+					nume = num[i];
+					nume2 = num[i + 1];
+					nume2 = log(nume2) / log(2.718281828);
+					resultado = nume * nume2;
+				}
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == 's' || ope[i] == 'S')
+			{
+				double nume, nume2, resultado;
+				nume = num[i];
+				nume2 = num[i + 1];
+				nume2 = nume2 * 3.14159 / 180;
+				resultado = nume * (sin(nume2));
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == 'C' || ope[i] == 'c')
+			{
+				double nume, nume2, resultado;
+				nume = num[i];
+				nume2 = num[i + 1];
+				resultado = nume * (cos(nume2*3.14159 / 180));
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == 'T' || ope[i] == 't')
+			{
+				double nume, nume2, resultado;
+				nume = num[i];
+				nume2 = num[i + 1];
+				resultado = nume * (tan(nume2*3.14159 / 180));
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == '*')
+			{
+				double resultado = num[i] * num[i + 1];
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == '/')
+			{
+				double resultado = num[i] / num[i + 1];
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;*/
+		while (i < par2)
+		{
+			if (total[i] == "+")
+			{
+				double nume, nume2, resultado;
+				const char *m = (total[i - 1]).c_str();
+				nume = atof(m);
+				m = (total[i + 1]).c_str();
+				nume2 = atof(m);
+				resultado = nume + nume2;
+				char num[50];
+				snprintf(num, 50, "%f", resultado);
+				string to = m;
+				nt = total->size() - 1;
+				total[i - 1] = num;
+				for (int j = i; j < nt; j++)
+				{
+					if ((j+1)<total->size())
+					{
+					total[j] = total[j + 1];
+					}
+				}
+				for (int j = i; j < nt; j++)
+				{
+					if ((j + 1)<total->size())
+					{
+						total[j] = total[j + 1];
+					}
+				}
+				total->pop_back();
+				total->pop_back();
+				//delete m;
+				for (int im = 0; im < nt; im++)
+				{
+					cout << total[im];
+				}
+				cout << "\n";
+				par2 -= 2;
+			}
+			i++;
+		}
+		i = par1;
+		/*i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == '-')
+			{
+				double resultado = num[i] - num[i + 1];
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;*/
+		if ((i+2)==par2)
+		{
+			for (int j = i; j < total->size(); j++)
+			{
+				if ((j + 1)<total->size())
+				{
+					total[j] = total[j + 1];
+				}
+			}
+			for (int j = i+1; j < total->size(); j++)
+			{
+				if ((j + 1)<total->size())
+				{
+					total[j] = total[j + 1];
+				}
+			}
+			total->pop_back();
+			total->pop_back();
+			if (total[i-1]=="+")
+			{
+
+			}
+			else
+			{
+				double nume, nume2, resultado;
+				const char *m = (total[i - 1]).c_str();
+				nume = atof(m);
+				m = (total[i + 1]).c_str();
+				nume2 = atof(m);
+				resultado = nume * nume2;
+				char num[50];
+				snprintf(num, 50, "%f", resultado);
+				string to = m;
+				total[i - 1] = num;
+				for (int j = i; j < (total->size() - 1); j++)
+				{
+					total[j] = total[j + 1];
+				}
+				for (int j = i; j < (total->size() - 1); j++)
+				{
+					total[j] = total[j + 1];
+				}
+				total->pop_back();
+				total->pop_back();
+				//delete m;
+				for (int im = 0; im < total->size(); im++)
+				{
+					cout << total[im];
+				}
+				cout << "\n";
+				par2 -= 2;
+			}
+			for (int im = 0; im < total->size(); im++)
+			{
+				cout << total[im];
+			}
+			cout << "\n";
+		}
+	}
+}
+
+
+
+void acomodar_parentesis(vector <char>& ope, vector <double>& num)
+{
+	string nuevoar = "respuestas.txt";
+	int nt = ope.size() + num.size();
+	string *total = new string[nt];
+	for (int i = 0; i < nt; i++)
+	{
+		total[i] = '\0';
+	}
+	int ver = 0;
+	int i= 0;
+	int j = i;
+	int n = i;
+	while (i<nt-1)
+	{
+		while (ver < ope.size())
+		{
+			if (ope[j] == '(')
+			{
+				total[i] = ope[j];
+				j++;
+				i++;
+			}
+			ver++;
+		}
+		ver = 0;
+		char m[50];
+		snprintf(m, 50, "%f", num[n]);
+		string to = m;
+		total[i] = to;
+		n++;
+		i++;
+		while (ver < ope.size())
+		{
+			if (i>=nt)
+			{
+				break;
+			}
+			if (ope[j] == ')')
+			{
+
+				total[i] = ope[j];
+				j++;
+				i++;
+			}
+			ver++;
+		}
+		ver = 0;
+		if (i<nt-1)
+		{
+		total[i] = ope[j];
+		j++;
+		i++;
+		}
+
+	}
+	/*while (t<nt)
+	{
+		char m[50];
+		snprintf(m, 50, "%f", num[l]);
+		string to = m;
+		total[t] = to;
+		t += 2;
+		l += 1;
+		/*for (int i = 0; i < 50; i++)
+		{
+		m[i] = '/0';
+		}
+	}
+	int t2 = 1;
+	int o = 0;
+	while (t2<nt)
+	{
+		char m[50];
+		snprintf(m,50, "%0", ope[o]);
+		string to = m;
+		total[t2] = ope[o];
+		t2 += 2;
+		o += 1;
+	}*/
+	total->pop_back();
+	for (size_t a = 0; a < nt; a++)
+	{
+		if (nt == 1)
+		{
+			cout << "Resultado= ";
+		}
+		cout << total[a] << " ";
+	}
+	agregar_nuevo(nuevoar, total, nt);
+	cout << "\n";
+	gerarquia_parentesis(total);
+	//operaciones_perentesis(total, nt);
+	delete[]total;
+}
+
+
 void crear_archivo(string archi)
 {
 	ofstream archivo_n(archi.c_str());
 	archivo_n.open(archi.c_str(), ios::out);
 }
 
-void agregar_nuevo(string n, string *total, int nt)
-{
-	ofstream archivo_n(n.c_str(), ios::app);
-	for (int i = 0; i < nt; i++)
-	{
-		if (nt == 1)
-		{
-			archivo_n << "Resultado= ";
-		}
-		archivo_n << total[i];
-	}
-	archivo_n << "\n";
-}
 
 void leer_archivo(string nombre,string& cosa)
 {
@@ -162,6 +533,161 @@ void acomodar(int& i, vector <char>& ope, vector <double>& num, double resultado
 		cout << "\n";
 		delete[]total;*/
 		imprimir(ope, num);
+	}
+}
+
+void gerarquia_paren(vector <char> operaciones, vector <double> numero)
+{
+	vector <char> ope;
+	vector <double> num;
+	for (int i = 0; i < operaciones.size(); i++)
+	{
+		ope.push_back(operaciones[i]);
+	}
+	for (int i = 0; i < numero.size(); i++)
+	{
+		num.push_back(numero[i]);
+	}
+
+	while (ope.size()>0)
+	{
+		int i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == 'p' || ope[i] == 'P')
+			{
+				double nume, nume2, pot, resultado;
+				int p = 1;
+				nume = num[i];
+				pot = num[i + 1];
+				nume2 = nume;
+				while (p<pot)
+				{
+					nume = nume * nume2;
+					p++;
+				}
+				resultado = nume;
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == 'r' || ope[i] == 'R')
+			{
+				double nume, ra, resultado;
+				nume = num[i];
+				ra = num[i + 1];
+				resultado = pow(nume, (1 / ra));
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == 'l' || ope[i] == 'L')
+			{
+				double nume, nume2, resultado;
+				//num.size()>1 && 
+				if (ope.size() == (num.size()))
+				{
+					nume = num[i];
+					resultado = log(nume) / log(2.718281828);
+				}
+				else
+				{
+					nume = num[i];
+					nume2 = num[i + 1];
+					nume2 = log(nume2) / log(2.718281828);
+					resultado = nume * nume2;
+				}
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == 's' || ope[i] == 'S')
+			{
+				double nume, nume2, resultado;
+				nume = num[i];
+				nume2 = num[i + 1];
+				nume2 = nume2 * 3.14159 / 180;
+				resultado = nume * (sin(nume2));
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == 'C' || ope[i] == 'c')
+			{
+				double nume, nume2, resultado;
+				nume = num[i];
+				nume2 = num[i + 1];
+				resultado = nume * (cos(nume2*3.14159 / 180));
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == 'T' || ope[i] == 't')
+			{
+				double nume, nume2, resultado;
+				nume = num[i];
+				nume2 = num[i + 1];
+				resultado = nume * (tan(nume2*3.14159 / 180));
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == '*')
+			{
+				double resultado = num[i] * num[i + 1];
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == '/')
+			{
+				double resultado = num[i] / num[i + 1];
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == '+')
+			{
+				double resultado = num[i] + num[i + 1];
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
+		while (i < ope.size())
+		{
+			if (ope[i] == '-')
+			{
+				double resultado = num[i] - num[i + 1];
+				acomodar(i, ope, num, resultado);
+			}
+			i++;
+		}
+		i = 0;
 	}
 }
 
@@ -338,65 +864,83 @@ void operaciones(string contenido)
 	while (registro != '\0')
 	{
 		bool se_puede = true;
+		bool parentesis = false;
+		bool anteregistro = false;
 		int j = 0;
 		registro = 'A';
-		while (registro != '\n')
+		int pa = -10;
+		while (pa!=0)
 		{
-			/*if (contenido.size()==1)
+			while (registro != '\n')
 			{
-				registro = contenido[0];
-				//num1 = atoi(numeros);
-				//numero.push_back(num1);
-			}*/
-			if(i<contenido.size()+1)
-				registro = contenido[i];
-			else
-			{
-				break;
-			}
-			if (registro == ' ')
-			{
-
-			}
-			else if (registro == '\n' || registro == '\0')
-			{
-				num1 = atoi(numeros);
-				numero.push_back(num1);
-			}
-			else if (registro == '+')
-			{
-				operaciones.push_back(registro);
-				operacion = "suma";
-				num1 = atoi(numeros);
-				numero.push_back(num1);
-				for (int a = 0; a < 9; a++)
+				/*if (contenido.size()==1)
 				{
-					numeros[a] = '\0';
-				}
-				j = 0;
-			}
-			else if (registro == '*')
-			{
-				operaciones.push_back(registro);
-				operacion = "suma";
-				num1 = atoi(numeros);
-				numero.push_back(num1);
-				for (int a = 0; a < 9; a++)
-				{
-					numeros[a] = '\0';
-				}
-				j = 0;
-			}
-			else if (registro == '-')
-			{
-					operaciones.push_back(registro);
-				if (operaciones.size() == numero.size())
-				{
-					numeros[j] = registro;
-					j++;
-				}
+					registro = contenido[0];
+					//num1 = atoi(numeros);
+					//numero.push_back(num1);
+				}*/
+				if(i<contenido.size()+1)
+					registro = contenido[i];
 				else
 				{
+					break;
+				}
+				if (registro == ' ')
+				{
+
+				}
+				else if (registro == '(')
+				{
+					if (pa==-10)
+					{
+						pa = 0;
+					}
+					parentesis = true;
+					if (pa ==0 && numeros=='\0')
+					{
+						operaciones.push_back(registro);
+					}
+					else
+					{
+						operaciones.push_back(registro);
+						if (anteregistro)
+						{
+
+						}
+						else
+						{
+						num1 = atoi(numeros);
+						numero.push_back(num1);
+						for (int a = 0; a < 9; a++)
+						{
+							numeros[a] = '\0';
+						}
+						j = 0;
+						}
+					}
+						pa += 1;
+				}
+				else if (registro == ')')
+				{
+					pa -= 1;
+					operaciones.push_back(registro);
+					num1 = atoi(numeros);
+					numero.push_back(num1);
+					if (pa==0)
+					{
+						i++;
+						registro = contenido[i];
+					}
+				}
+				else if (registro == '\n' || registro == '\0')
+				{
+					num1 = atoi(numeros);
+					numero.push_back(num1);
+				}
+				else if (registro == '+')
+				{
+					operaciones.push_back(registro);
+					operacion = "suma";
 					num1 = atoi(numeros);
 					numero.push_back(num1);
 					for (int a = 0; a < 9; a++)
@@ -404,107 +948,182 @@ void operaciones(string contenido)
 						numeros[a] = '\0';
 					}
 					j = 0;
+					anteregistro = true;
 				}
+				else if (registro == '*')
+				{
+					operaciones.push_back(registro);
+					num1 = atoi(numeros);
+					numero.push_back(num1);
+					for (int a = 0; a < 9; a++)
+					{
+						numeros[a] = '\0';
+					}
+					j = 0;
+					anteregistro = true;
+				}
+				else if (registro == '-')
+				{
+					if (numero.size()>0)
+					{
+						if (operaciones.size() == numero.size())
+						{
+							numeros[j] = registro;
+							j++;
+						}
+						else if (operaciones[(operaciones.size() - 1)] == '(' || operaciones[(operaciones.size() - 1)] == ')')
+						{
+							numeros[j] = registro;
+							j++;
+						}
+					}
+					else if(operaciones.size() == numero.size())
+					{
+						numeros[j] = registro;
+						j++;
+					}
+					else if (operaciones[(operaciones.size()-1)]=='(' || operaciones[(operaciones.size() - 1)] == ')')
+					{
+						numeros[j] = registro;
+						j++;
+					}
+					else
+					{
+						operaciones.push_back(registro);
+						num1 = atoi(numeros);
+						numero.push_back(num1);
+						for (int a = 0; a < 9; a++)
+						{
+							numeros[a] = '\0';
+						}
+						j = 0;
+						anteregistro = true;
+					}
+				}
+				else if (registro == '/')
+				{
+					operaciones.push_back(registro);
+					operacion = "divi";
+					num1 = atoi(numeros);
+					numero.push_back(num1);
+					for (int a = 0; a < 9; a++)
+					{
+						numeros[a] = '\0';
+					}
+					j = 0;
+					anteregistro = true;
+				}
+				else if (registro == 'P' || registro=='p')
+				{
+					operaciones.push_back(registro);
+					num1 = atoi(numeros);
+					numero.push_back(num1);
+					for (int a = 0; a < 9; a++)
+					{
+						numeros[a] = '\0';
+					}
+					j = 0;
+					anteregistro = true;
+				}
+				else if (registro == 'S' || registro == 's')
+				{
+					operaciones.push_back(registro);
+					num1 = atoi(numeros);
+					numero.push_back(num1);
+					for (int a = 0; a < 9; a++)
+					{
+						numeros[a] = '\0';
+					}
+					j = 0;
+					anteregistro = true;
+				}
+				else if (registro == 'C' || registro == 'c')
+				{
+					operaciones.push_back(registro);
+					num1 = atoi(numeros);
+					numero.push_back(num1);
+					for (int a = 0; a < 9; a++)
+					{
+						numeros[a] = '\0';
+					}
+					j = 0;
+					anteregistro = true;
+				}
+				else if (registro == 'T' || registro == 't')
+				{
+					operaciones.push_back(registro);
+					num1 = atoi(numeros);
+					numero.push_back(num1);
+					for (int a = 0; a < 9; a++)
+					{
+						numeros[a] = '\0';
+					}
+					j = 0;
+					anteregistro = true;
+				}
+				else if (registro == 'L' || registro == 'l')
+				{
+					operaciones.push_back(registro);
+					num1 = atoi(numeros);
+					if (num1>0)
+					{
+					numero.push_back(num1);
+					}
+					for (int a = 0; a < 9; a++)
+					{
+						numeros[a] = '\0';
+					}
+					j = 0;
+					anteregistro = true;
+				}
+				else if (registro == 'R' || registro == 'r')
+				{
+					operaciones.push_back(registro);
+					num1 = atoi(numeros);
+					numero.push_back(num1);
+					for (int a = 0; a < 9; a++)
+					{
+						numeros[a] = '\0';
+					}
+					j = 0;
+					anteregistro = true;
+				}
+				else if (registro < 65)
+				{
+					numeros[j] = registro;
+					if (numeros[j]== '0' && operacion=="divi")
+					{
+						se_puede = false;
+						operacion = "nada";
+					}
+					else
+					{
+						operacion = "nada";
+					}
+					j++;
+					anteregistro = false;
+				}
+				i++;
+				anteregistro = registro;
 			}
-			else if (registro == '/')
-			{
-				operaciones.push_back(registro);
-				operacion = "divi";
-				num1 = atoi(numeros);
-				numero.push_back(num1);
-				for (int a = 0; a < 9; a++)
-				{
-					numeros[a] = '\0';
-				}
-				j = 0;
-			}
-			else if (registro == 'P' || registro=='p')
-			{
-				operaciones.push_back(registro);
-				num1 = atoi(numeros);
-				numero.push_back(num1);
-				for (int a = 0; a < 9; a++)
-				{
-					numeros[a] = '\0';
-				}
-				j = 0;
-			}
-			else if (registro == 'S' || registro == 's')
-			{
-				operaciones.push_back(registro);
-				num1 = atoi(numeros);
-				numero.push_back(num1);
-				for (int a = 0; a < 9; a++)
-				{
-					numeros[a] = '\0';
-				}
-				j = 0;
-			}
-			else if (registro == 'C' || registro == 'c')
-			{
-				operaciones.push_back(registro);
-				num1 = atoi(numeros);
-				numero.push_back(num1);
-				for (int a = 0; a < 9; a++)
-				{
-					numeros[a] = '\0';
-				}
-				j = 0;
-			}
-			else if (registro == 'T' || registro == 't')
-			{
-				operaciones.push_back(registro);
-				num1 = atoi(numeros);
-				numero.push_back(num1);
-				for (int a = 0; a < 9; a++)
-				{
-					numeros[a] = '\0';
-				}
-				j = 0;
-			}
-			else if (registro == 'L' || registro == 'l')
-			{
-				operaciones.push_back(registro);
-				num1 = atoi(numeros);
-				if (num1>0)
-				{
-				numero.push_back(num1);
-				}
-				for (int a = 0; a < 9; a++)
-				{
-					numeros[a] = '\0';
-				}
-				j = 0;
-			}
-			else if (registro == 'R' || registro == 'r')
-			{
-				operaciones.push_back(registro);
-				num1 = atoi(numeros);
-				numero.push_back(num1);
-				for (int a = 0; a < 9; a++)
-				{
-					numeros[a] = '\0';
-				}
-				j = 0;
-			}
-			else if (registro < 65)
-			{
-				numeros[j] = registro;
-				if (numeros[j]== 0 && operacion=="divi")
-				{
-					se_puede = false;
-				}
-				else
-				{
-					operacion = "nada";
-				}
-				j++;
-			}
-			i++;
+			pa = 0;
 		}
 		if (numero.size() == 1)
 		{
 			cout << numero[0] << "\n";
+		}
+		else if (parentesis)
+		{
+			for (int i = 0; i < operaciones.size(); i++)
+			{
+				cout << operaciones[i];
+			}
+			for (int i = 0; i < numero.size(); i++)
+			{
+				cout << numero[i];
+			}
+			cout << "\n";
+			acomodar_parentesis(operaciones, numero);
 		}
 		else if (se_puede)
 		{
@@ -513,6 +1132,7 @@ void operaciones(string contenido)
 		}
 		else
 		{
+			imprimir(operaciones, numero);
 			cout << "No se puede hacer esta operacion\n";
 		}
 		/*
@@ -587,4 +1207,25 @@ int main()
 	//delete (contenidoarchivo);
 	//delete[] numeros;
 	return 0;
+}
+
+void operaciones_perentesis(string *total, int nt)
+{
+	int par1, par2;
+	int i=0;
+	string contenido;
+	while (i<nt)
+	{
+		if (total[i] == "(")
+		{
+			par1 = i;
+		}
+		if (total[i] == ")")
+		{
+			par2 = i;
+			int pare = par1 + 1;
+		}
+		i++;
+	}
+
 }
