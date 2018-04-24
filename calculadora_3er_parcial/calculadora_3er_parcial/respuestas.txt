@@ -7,4 +7,23 @@ Esta calculadora funciona con los siguientes parametros:
 	6)La 'L' o 'l' es para calcular el logaritmo natural
 
 
-2.00000+(-2.000000+1.000000)
+2.000000+(2.000000*2.000000)
+2.000000+(4.000000)
+Resultado= 6.000000
+
+Resultado= 6.000000
+
+2.000000t3.000000
+Resultado= 0.104815
+
+4.000000*5.000000
+Resultado= 20.000000
+
+6.000000/3.000000
+Resultado= 2.000000
+
+20.000000-10.000000+5.000000*2.000000
+20.000000-10.000000+10.000000
+10.000000+10.000000
+Resultado= 20.000000
+
